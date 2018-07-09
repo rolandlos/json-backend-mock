@@ -26,8 +26,8 @@ public class PersonController extends Controller {
         headers.keySet().forEach(key -> {
             Logger.info(key+" -> "+headers.get(key));
         });
-        String person = "{ name : \"Bornhauser\"}";
-        return ok(new File("/Users/rolandloser/Downloads/person.json")).as("application/json");
+
+        return ok(new File("./person.json")).as("application/json");
 
     }
 

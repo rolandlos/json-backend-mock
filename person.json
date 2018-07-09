@@ -1,0 +1,42 @@
+{
+    "firstName": "Christian",
+    "officialName": "Bornhauser",
+    "callName": "",
+    "originalName": "Bornhauser",
+    "gender": "mann",
+    "birthDate": 310172400000,
+    "languageOfCorrespondence": "de",
+    "nationality": {
+        "name": "Schweiz",
+        "id": "4846:45",
+    },
+    "placeOfOrigin": {
+        "name": "Weinfelden",
+        "id": "5976:46",
+    },
+    "profession": "Software",
+    "typeOfObject": {
+        "name": "x",
+        "id": "4576:56"
+    },
+    "indentificationNumber": "84846",
+    "place": {
+        "name": "Wabern",
+        "plz": "3084",
+        "id": "4576:45",
+    },
+    "street": "Austrasse",
+    "houseNumber": "18",
+    "country": {
+        "name": "Schweiz",
+        "id": "39587:34",
+    },
+    "phone1Type": {
+        "name": "Mobil",
+        "id": "08956:55"
+    },
+    "phone1": "0797232966",
+    "phone2Type": null,
+    "phone2": null,
+    "additionalInformation": "",
+}
