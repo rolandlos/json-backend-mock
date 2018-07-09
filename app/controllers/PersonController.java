@@ -27,8 +27,8 @@ public class PersonController extends Controller {
      */
     public Result getPerson() {
         DecodedJWT jwt = JWTUtil.getToken(request());
-        String email = jwt.getClaims().get("email").asString();
         if (jwt != null) {
+            String email = jwt.getClaims().get("email").asString();
             try {
                 return ok(new File(email + ".json")).withHeader("Access-Control-Allow-Origin", "*").as("application/json");
             } catch (Exception e) {
@@ -42,8 +42,8 @@ public class PersonController extends Controller {
 
     public Result insertPerson() {
         DecodedJWT jwt = JWTUtil.getToken(request());
-        String email = jwt.getClaims().get("email").asString();
         if (jwt != null) {
+            String email = jwt.getClaims().get("email").asString();
             try {
                 JsonNode node = request().body().asJson();
                 FileWriter fw = new FileWriter(new File(email + ".json"));
