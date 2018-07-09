@@ -4,6 +4,7 @@
 
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
+OPTIONS /api/person                 controllers.PersonController.options
 
 GET     /api/person                 controllers.PersonController.getPerson
 
