@@ -27,7 +27,7 @@ public class PersonController extends Controller {
             Logger.info(key+" -> "+headers.get(key));
         });
 
-        return ok(new File("./person.json")).as("application/json");
+        return ok(new File("./person.json")).withHeader("Access-Control-Allow-Origin","*").as("application/json");
 
     }
 
