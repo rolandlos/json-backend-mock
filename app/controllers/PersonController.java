@@ -32,10 +32,10 @@ public class PersonController extends Controller {
             try {
                 return ok(new File(email + ".json")).withHeader("Access-Control-Allow-Origin", "*").as("application/json");
             } catch (Exception e) {
-                return notFound("User with email "+email+" not found");
+                return notFound("User with email "+email+" not found").withHeader("Access-Control-Allow-Origin", "*");
             }
         } else {
-            return unauthorized();
+            return unauthorized().withHeader("Access-Control-Allow-Origin", "*");
         }
 
     }
@@ -52,7 +52,7 @@ public class PersonController extends Controller {
                 fw.close();
                 return ok().withHeader("Access-Control-Allow-Origin", "*");
             } catch (Exception e) {
-                return notFound("User with email "+email+" not found");
+                return notFound("User with email "+email+" not found").withHeader("Access-Control-Allow-Origin", "*");
             }
         } else {
             return unauthorized();
