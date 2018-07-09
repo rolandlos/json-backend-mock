@@ -8,11 +8,11 @@
     "languageOfCorrespondence": "de",
     "nationality": {
         "name": "Schweiz",
-        "id": "4846:45",
+        "id": "4846:45"
     },
     "placeOfOrigin": {
         "name": "Weinfelden",
-        "id": "5976:46",
+        "id": "5976:46"
     },
     "profession": "Software",
     "typeOfObject": {
@@ -29,7 +29,7 @@
     "houseNumber": "18",
     "country": {
         "name": "Schweiz",
-        "id": "39587:34",
+        "id": "39587:34"
     },
     "phone1Type": {
         "name": "Mobil",
@@ -38,5 +38,5 @@
     "phone1": "0797232966",
     "phone2Type": null,
     "phone2": null,
-    "additionalInformation": "",
+    "additionalInformation": ""
 }
