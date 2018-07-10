@@ -37,7 +37,9 @@ public class JWTUtil {
     public static DecodedJWT getToken(Http.Request request) {
         Optional<String> authHeader = request.getHeaders().get("Authorization");
         if (authHeader.isPresent()) {
+            Logger.info("Header is:"+authHeader.get());
             String tk = authHeader.get().split(" ")[1];
+            Logger.info("Token is:"+tk);
             return verifier.verify(tk);
         }
         return null;
