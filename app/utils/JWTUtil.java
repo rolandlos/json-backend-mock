@@ -26,7 +26,7 @@ public class JWTUtil {
             RSAPublicKey pubKey = (RSAPublicKey) kf.generatePublic(keySpecX509);
             Algorithm algorithm = Algorithm.RSA256(pubKey, null);
             verifier = JWT.require(algorithm)
-                    .withIssuer("https://demo.oevfahrplan.ch/auth/realms/epoliuce")
+                    .withIssuer("https://demo.oevfahrplan.ch/auth/realms/epolice")
                     .build(); //Reusable verifier instance
         } catch (Exception e) {
             Logger.error("Error when init keys",e);
