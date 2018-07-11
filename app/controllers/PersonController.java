@@ -77,7 +77,7 @@ public class PersonController extends Controller {
                 fw.write(node.toString());
                 fw.flush();
                 fw.close();
-                return ok().withHeader("Access-Control-Allow-Origin", "*");
+                return ok();
             } catch (Exception e) {
                 return notFound("User with email "+email+" not found").withHeader("Access-Control-Allow-Origin", "*");
             }

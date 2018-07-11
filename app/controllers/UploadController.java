@@ -1,5 +1,6 @@
 package controllers;
 
+import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -16,6 +17,7 @@ public class UploadController extends Controller {
             String fileName = picture.getFilename();
             String contentType = picture.getContentType();
             File file = picture.getFile();
+            Logger.info("Filename: "+file.getName());
             return ok("File uploaded");
         } else {
             flash("error", "Missing file");
