@@ -87,7 +87,7 @@ public class PersonController extends Controller {
     }
 
     public Result options() {
-        return ok("").withHeader("Access-Control-Allow-Origin","*");
+        return ok("").withHeader("Access-Control-Allow-Origin",request().getHeaders().get("Origin").get());
     }
 
 }
