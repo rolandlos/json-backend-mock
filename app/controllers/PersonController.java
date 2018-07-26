@@ -2,8 +2,10 @@ package controllers;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.NaturalPerson;
+import models.Self;
 import play.Logger;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import utils.JWTUtil;
@@ -11,75 +13,113 @@ import utils.JWTUtil;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
-/**
- * This controller contains an action to handle HTTP requests
- * to the application's home page.
- */
 public class PersonController extends Controller {
 
-    /**
-     * An action that renders an HTML page with a welcome message.
-     * The configuration in the <code>routes</code> file means that
-     * this method will be called when the application receives a
-     * <code>GET</code> request with a path of <code>/</code>.
-     */
-    public Result getPerson() {
+    public static final String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
+    public static final String APPLICATION_JSON = "application/json";
+    public static final String WILDCARD = "*";
+
+
+    public Result getPerson(String id) {
         DecodedJWT jwt = JWTUtil.getToken(request());
         if (jwt != null) {
-            String email = jwt.getClaims().get("email").asString();
-            try {
-                File jsonFile = new File(email+".json");
-                if (!jsonFile.exists()) {
-                    producePerson(jwt);
+            String fileName = produceFileNameFromAuth(jwt);
+            if (fileName.contains(id)) {
+                try {
+                    return ok(new File(fileName)).withHeader(ACCESS_CONTROL_ALLOW_ORIGIN, WILDCARD).as(APPLICATION_JSON);
+                } catch (Exception e) {
+                    return userNotFound(fileName);
                 }
-                return ok(new File(email + ".json")).withHeader("Access-Control-Allow-Origin", "*").as("application/json");
-            } catch (Exception e) {
-                return notFound("User with email "+email+" not found").withHeader("Access-Control-Allow-Origin", "*");
+            } else {
+                return unauthorized("Trying to access another Person");
             }
         } else {
-            return unauthorized().withHeader("Access-Control-Allow-Origin", "*");
+            return unauthorized().withHeader(ACCESS_CONTROL_ALLOW_ORIGIN, WILDCARD);
         }
 
     }
 
-    private void producePerson(DecodedJWT jwt) {
+    private Result userNotFound(String fileName) {
+        return notFound("User with email " + fileName + " not found").withHeader(ACCESS_CONTROL_ALLOW_ORIGIN, WILDCARD);
+    }
+
+
+    private String produceFileNameFromAuth(DecodedJWT jwt) {
+        return produceIdFormAuth(jwt)+".json";
+    }
+
+    private String produceIdFormAuth(DecodedJWT jwt) {
+        if (jwt != null) {
+            String email = jwt.getClaims().get("email").asString();
+            Logger.info("E-Mail of User is {}",email);
+            return String.format("%d", email.hashCode());
+        }
+        return null;
+    }
+
+
+
+    public Result self() {
+        Logger.info("Call to self");
+        DecodedJWT jwt = JWTUtil.getToken(request());
+        String id = produceIdFormAuth(jwt);
+        if (id != null) {
+            try {
+                File jsonFile = new File(produceFileNameFromAuth(jwt));
+                if (!jsonFile.exists()) {
+                    producePerson(jwt, jsonFile);
+                }
+                Self self = new Self(id,id);
+                JsonNode json = Json.toJson(self);
+                Logger.info("Return json {}",json);
+                return ok(json).withHeader(ACCESS_CONTROL_ALLOW_ORIGIN, WILDCARD);
+            } catch (Exception e) {
+                return userNotFound(id);
+            }
+        } else {
+            return unauthorized().withHeader(ACCESS_CONTROL_ALLOW_ORIGIN, WILDCARD);
+        }
+    }
+
+    private void producePerson(DecodedJWT jwt,File jsonFile) {
         String email = jwt.getClaims().get("email").asString();
-        String family_name = jwt.getClaims().get("family_name").asString();
-        String given_name = jwt.getClaims().get("given_name").asString();
-        String name = jwt.getClaims().get("name").asString();
-        String json = "{ \n"+
-                "\"firstName\": \""+given_name+"\",\n"+
-                "\"officialName\": \""+family_name+"\",\n"+
-                "\"email\": \""+email+"\"\n"+
-               "}";
+        String familyName = jwt.getClaims().get("family_name").asString();
+        String givenName = jwt.getClaims().get("given_name").asString();
+
+        NaturalPerson np = NaturalPerson.builder().eMail(email).lastName(familyName).firstName(givenName).build();
+
         try {
-            Logger.info("produce Person "+email+".json");
-            FileWriter fw = new FileWriter(new File(email + ".json"));
-            fw.write(json);
-            fw.flush();
-            fw.close();
+            Logger.info("produce Person {}",jsonFile);
+            try (FileWriter fw = new FileWriter(jsonFile)) {
+                fw.write(Json.toJson(np).toString());
+                fw.flush();
+            }
         } catch (IOException e) {
             Logger.error("Error when producing Person for "+email,e);
         }
     }
 
-    public Result insertPerson() {
+    public Result updatePerson(String id) {
         DecodedJWT jwt = JWTUtil.getToken(request());
         if (jwt != null) {
-            String email = jwt.getClaims().get("email").asString();
-            try {
-                JsonNode node = request().body().asJson();
-                FileWriter fw = new FileWriter(new File(email + ".json"));
-                fw.write(node.toString());
-                fw.flush();
-                fw.close();
-                return ok();
-            } catch (Exception e) {
-                return notFound("User with email "+email+" not found").withHeader("Access-Control-Allow-Origin", "*");
+            String pid = this.produceIdFormAuth(jwt);
+            if (pid.equals(id)) {
+                try {
+                    JsonNode node = request().body().asJson();
+                    Logger.info("Update Person {} with {}",id,node);
+                    try (FileWriter fw = new FileWriter(new File(produceFileNameFromAuth(jwt)))) {
+                        fw.write(node.toString());
+                        fw.flush();
+                    }
+                    return ok();
+                } catch (Exception e) {
+                    return userNotFound(id);
+                }
+            } else {
+                Logger.warn("Trying to update another person id sent: {} != id from token {}",id,pid);
+                return unauthorized("Trying to update another person");
             }
         } else {
             return unauthorized();
@@ -87,7 +127,12 @@ public class PersonController extends Controller {
     }
 
     public Result options() {
-        return ok("").withHeader("Access-Control-Allow-Origin",request().getHeaders().get("Origin").get());
+        final Optional<String> origin = request().getHeaders().get("Origin");
+        if (origin.isPresent()) {
+            return ok("").withHeader(ACCESS_CONTROL_ALLOW_ORIGIN, origin.get());
+        } else {
+            return badRequest();
+        }
     }
 
 }

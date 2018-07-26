@@ -5,8 +5,10 @@
 # An example controller showing a sample home page
 OPTIONS /api/person                 controllers.PersonController.options
 
-GET     /api/person                 controllers.PersonController.getPerson
-POST     /api/person                 controllers.PersonController.insertPerson
+GET     /api/naturalpersons/:id     controllers.PersonController.getPerson(id: String)
+PUT     /api/naturalpersons/:id     controllers.PersonController.updatePerson(id: String)
+
+GET     /api/users/self             controllers.PersonController.self
 
 POST    /api/upload                 controllers.UploadController.upload
 

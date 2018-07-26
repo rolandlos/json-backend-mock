@@ -9,3 +9,4 @@ scalaVersion := "2.12.4"
 
 libraryDependencies += guice
 libraryDependencies += "com.auth0" % "java-jwt" % "3.4.0"
+libraryDependencies += "org.projectlombok" % "lombok" % "1.18.0"
