@@ -76,9 +76,11 @@ public class PersonController extends Controller {
                 Logger.info("Return json {}",json);
                 return ok(json).withHeader(ACCESS_CONTROL_ALLOW_ORIGIN, WILDCARD);
             } catch (Exception e) {
+                Logger.error("Error",e);
                 return userNotFound(id);
             }
         } else {
+            Logger.warn("Not authorized");
             return unauthorized().withHeader(ACCESS_CONTROL_ALLOW_ORIGIN, WILDCARD);
         }
     }
