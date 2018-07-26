@@ -54,7 +54,7 @@ public class PersonController extends Controller {
         if (jwt != null) {
             String email = jwt.getClaims().get("email").asString();
             Logger.info("E-Mail of User is {}",email);
-            return String.format("%d", email.hashCode());
+            return String.format("%d", Math.abs(email.hashCode()));
         }
         return null;
     }
