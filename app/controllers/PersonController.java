@@ -115,7 +115,7 @@ public class PersonController extends Controller {
                         fw.write(node.toString());
                         fw.flush();
                     }
-                    return ok();
+                    return noContent();
                 } catch (Exception e) {
                     return userNotFound(id);
                 }

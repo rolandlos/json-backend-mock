@@ -14,8 +14,6 @@ public class UploadController extends Controller {
         Http.MultipartFormData<File> body = request().body().asMultipartFormData();
         Http.MultipartFormData.FilePart<File> picture = body.getFile("file");
         if (picture != null) {
-            String fileName = picture.getFilename();
-            String contentType = picture.getContentType();
             File file = picture.getFile();
             Logger.info("Filename: "+file.getName());
             return ok("File uploaded");
