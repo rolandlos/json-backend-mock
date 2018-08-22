@@ -12,6 +12,9 @@ POST    /api/case/create                controllers.CaseController.create()
 PUT     /api/case/bikemototheft         controllers.CaseController.save()
 PUT     /api/case/electrodevicetheft    controllers.CaseController.save()
 PUT     /api/case/skisnowboardtheft     controllers.CaseController.save()
+PUT     /api/case/controlplatelosstheft controllers.CaseController.save()
+DELETE  /api/case/:id                   controllers.CaseController.delete(id: String)
+
 
 GET     /api/case                       controllers.CaseController.list()
 
