@@ -17,9 +17,9 @@ import java.util.Optional;
 
 public class PersonController extends Controller {
 
-    public static final String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
+    //public static final String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
     public static final String APPLICATION_JSON = "application/json";
-    public static final String WILDCARD = "*";
+    //public static final String WILDCARD = "*";
 
 
     public Result getPerson(String id) {
@@ -28,7 +28,7 @@ public class PersonController extends Controller {
             String fileName = produceFileNameFromAuth(jwt);
             if (fileName.contains(id)) {
                 try {
-                    return ok(new File(fileName)).withHeader(ACCESS_CONTROL_ALLOW_ORIGIN, WILDCARD).as(APPLICATION_JSON);
+                    return ok(new File(fileName)).as(APPLICATION_JSON);
                 } catch (Exception e) {
                     return userNotFound(fileName);
                 }
@@ -36,13 +36,13 @@ public class PersonController extends Controller {
                 return unauthorized("Trying to access another Person");
             }
         } else {
-            return unauthorized().withHeader(ACCESS_CONTROL_ALLOW_ORIGIN, WILDCARD);
+            return unauthorized();
         }
 
     }
 
     private Result userNotFound(String fileName) {
-        return notFound("User with email " + fileName + " not found").withHeader(ACCESS_CONTROL_ALLOW_ORIGIN, WILDCARD);
+        return notFound("User with email " + fileName + " not found");
     }
 
 
@@ -74,14 +74,14 @@ public class PersonController extends Controller {
                 Self self = new Self(id,id);
                 JsonNode json = Json.toJson(self);
                 Logger.info("Return json {}",json);
-                return ok(json).withHeader(ACCESS_CONTROL_ALLOW_ORIGIN, WILDCARD);
+                return ok(json);
             } catch (Exception e) {
                 Logger.error("Error",e);
                 return userNotFound(id);
             }
         } else {
             Logger.warn("Not authorized");
-            return unauthorized().withHeader(ACCESS_CONTROL_ALLOW_ORIGIN, WILDCARD);
+            return unauthorized();
         }
     }
 
