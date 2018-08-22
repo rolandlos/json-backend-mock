@@ -10,6 +10,7 @@ PUT     /api/naturalpersons/:id     controllers.PersonController.updatePerson(id
 
 POST    /api/case/create            controllers.CaseController.create()
 PUT     /api/case/bikemototheft     controllers.CaseController.save()
+GET     /api/case                   controllers.CaseController.list()
 
 
 GET     /api/users/self             controllers.PersonController.self
