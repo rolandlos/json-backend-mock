@@ -50,7 +50,7 @@ public class PersonController extends Controller {
         return produceIdFormAuth(jwt)+".json";
     }
 
-    private String produceIdFormAuth(DecodedJWT jwt) {
+    static String produceIdFormAuth(DecodedJWT jwt) {
         if (jwt != null) {
             String email = jwt.getClaims().get("email").asString();
             Logger.info("E-Mail of User is {}",email);

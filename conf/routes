@@ -8,6 +8,10 @@ OPTIONS /api/person                 controllers.PersonController.options
 GET     /api/naturalpersons/:id     controllers.PersonController.getPerson(id: String)
 PUT     /api/naturalpersons/:id     controllers.PersonController.updatePerson(id: String)
 
+POST    /api/case/create            controllers.CaseController.create()
+PUT     /api/case/bikemototheft     controllers.CaseController.save()
+
+
 GET     /api/users/self             controllers.PersonController.self
 
 POST    /api/upload                 controllers.UploadController.upload
