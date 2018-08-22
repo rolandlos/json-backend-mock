@@ -17,7 +17,7 @@ public class CaseController extends Controller {
     public Result create() {
         String uuid = UUID.randomUUID().toString();
         Logger.info("Create Case: {}",uuid);
-        return ok(uuid);
+        return ok(uuid).as("application/json");
     }
 
     public Result save() {
