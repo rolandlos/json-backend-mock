@@ -9,15 +9,45 @@ import utils.JWTUtil;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class CaseController extends Controller {
 
 
+    public static final String APPLICATION_JSON = "application/json";
+
     public Result create() {
         String uuid = "\""+UUID.randomUUID().toString()+"\"";
         Logger.info("Create Case: {}",uuid);
-        return ok(uuid).as("application/json");
+        return ok(uuid).as(APPLICATION_JSON);
+    }
+
+
+    public Result list() {
+        DecodedJWT jwt = JWTUtil.getToken(request());
+        if (jwt != null) {
+            String pid = PersonController.produceIdFormAuth(jwt);
+            File dir = new File(pid);
+            if (dir.exists() && dir.isDirectory()) {
+                String collect = Arrays.stream(dir.listFiles()).map(f -> {
+                    try {
+                        return new String(Files.readAllBytes(f.toPath()));
+                    } catch (IOException e) {
+                        Logger.error("Error when reading file {}",f,e);
+                    }
+                    return "{}";
+                }).collect(Collectors.joining(","));
+                Logger.info("Return: [{}]",collect);
+                return ok("[" + collect + "]").as(APPLICATION_JSON);
+            } else {
+                return ok("[]").as(APPLICATION_JSON);
+            }
+        }
+        return unauthorized();
     }
 
     public Result save() {
