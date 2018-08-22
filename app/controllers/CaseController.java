@@ -15,7 +15,9 @@ public class CaseController extends Controller {
 
 
     public Result create() {
-        return ok(UUID.randomUUID().toString());
+        String uuid = UUID.randomUUID().toString();
+        Logger.info("Create Case: {}",uuid);
+        return ok(uuid);
     }
 
     public Result save() {
@@ -24,19 +26,25 @@ public class CaseController extends Controller {
             String pid = PersonController.produceIdFormAuth(jwt);
             try {
                 JsonNode node = request().body().asJson();
+                Logger.info("Save case {} for user: {}",node,pid);
                 File userCaseDir = new File(pid);
                 if (!userCaseDir.exists()) {
+                    Logger.info("Make userDir {}",userCaseDir);
                     userCaseDir.mkdir();
                 }
-                try (FileWriter fw = new FileWriter(new File(pid+"/"+node.get("id").asText()))) {
+                String fileName = pid+"/"+node.get("id").asText();
+                try (FileWriter fw = new FileWriter(new File(fileName))) {
                     fw.write(node.toString());
                     fw.flush();
+                    Logger.info("Written case to {}",fileName);
                 }
                 return noContent();
             } catch (Exception e) {
+                Logger.error("Something when wrong",e);
                 return internalServerError(e.getMessage());
             }
         } else {
+            Logger.error("User not authorized");
             return unauthorized();
         }
     }
