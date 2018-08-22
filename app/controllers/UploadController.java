@@ -10,7 +10,7 @@ import java.io.File;
 public class UploadController extends Controller {
 
 
-    public Result upload() {
+    public Result upload(String caseId) {
         Http.MultipartFormData<File> body = request().body().asMultipartFormData();
         Http.MultipartFormData.FilePart<File> picture = body.getFile("file");
         if (picture != null) {
