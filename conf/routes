@@ -8,20 +8,20 @@ OPTIONS /api/person                     controllers.PersonController.options
 GET     /api/naturalpersons/:id         controllers.PersonController.getPerson(id: String)
 PUT     /api/naturalpersons/:id         controllers.PersonController.updatePerson(id: String)
 
-POST    /api/case/create                controllers.CaseController.create()
-PUT     /api/case/bikemototheft         controllers.CaseController.save()
-PUT     /api/case/electrodevicetheft    controllers.CaseController.save()
-PUT     /api/case/skisnowboardtheft     controllers.CaseController.save()
-PUT     /api/case/controlplatelosstheft controllers.CaseController.save()
-DELETE  /api/case/:id                   controllers.CaseController.delete(id: String)
+POST    /api/cases/create                controllers.CaseController.create()
+PUT     /api/cases/bikemototheft         controllers.CaseController.save()
+PUT     /api/cases/electrodevicetheft    controllers.CaseController.save()
+PUT     /api/cases/skisnowboardtheft     controllers.CaseController.save()
+PUT     /api/cases/controlplatelosstheft controllers.CaseController.save()
+DELETE  /api/cases/:id                   controllers.CaseController.delete(id: String)
 
 
-GET     /api/case                       controllers.CaseController.list()
+GET     /api/cases                       controllers.CaseController.list()
 
 
 GET     /api/users/self                 controllers.PersonController.self
 
-POST    /api/case/:caseId/fileupload   controllers.UploadController.upload(caseId: String)
+POST    /api/cases/:caseId/fileupload   controllers.UploadController.upload(caseId: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                   controllers.Assets.versioned(path="/public", file: Asset)
