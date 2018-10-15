@@ -17,6 +17,7 @@ PUT     /api/cases/purchaseweapon        controllers.CaseController.save()
 DELETE  /api/cases/:id                   controllers.CaseController.delete(id: String)
 
 
+GET     /api/cases/:id                   controllers.CaseController.get(id: String)
 GET     /api/cases                       controllers.CaseController.list()
 
 

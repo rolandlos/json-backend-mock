@@ -50,6 +50,27 @@ public class CaseController extends Controller {
         return unauthorized();
     }
 
+    public Result get(String id) {
+        DecodedJWT jwt = JWTUtil.getToken(request());
+        if (jwt != null) {
+            String pid = PersonController.produceIdFormAuth(jwt);
+            File caseFile = new File(pid+"/"+id);
+            if (caseFile.exists()) {
+                try {
+                    return ok(new String(Files.readAllBytes(caseFile.toPath()))).as(APPLICATION_JSON);
+                } catch (IOException e) {
+                    Logger.error("Error when reading case file {}",caseFile,e);
+                    return notFound();
+                }
+            } else {
+                return notFound();
+            }
+        }
+        return unauthorized();
+    }
+
+
+
     public Result delete(String id) {
         DecodedJWT jwt = JWTUtil.getToken(request());
         if (jwt != null) {
