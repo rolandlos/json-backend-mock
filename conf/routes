@@ -21,6 +21,8 @@ PUT     /api/cases/electrodevicetheft    controllers.CaseController.save()
 PUT     /api/cases/skisnowboardtheft     controllers.CaseController.save()
 PUT     /api/cases/controlplatelosstheft controllers.CaseController.save()
 PUT     /api/cases/purchaseweapon        controllers.CaseController.save()
+PUT     /api/cases/transferweapon        controllers.CaseController.save()
+PUT     /api/cases/damage                controllers.CaseController.save()
 DELETE  /api/cases/:id                   controllers.CaseController.delete(id: String)
 
 
