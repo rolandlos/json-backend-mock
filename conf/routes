@@ -11,6 +11,8 @@ PUT     /api/naturalpersons/:id         controllers.PersonController.updatePerso
 POST    /api/cases/:caseId/addenda/:addendumId          controllers.AddendumController.save(caseId: String, addendumId: String)
 POST    /api/cases/:id/addenda          controllers.AddendumController.create(id: String)
 
+GET    /api/cases/:caseId/addenda/:addendumId          controllers.AddendumController.get(caseId: String, addendumId: String)
+GET    /api/cases/:id/addenda          controllers.AddendumController.list(id: String)
 
 
 POST    /api/cases/create                controllers.CaseController.create()
