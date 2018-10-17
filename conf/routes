@@ -8,6 +8,11 @@ OPTIONS /api/person                     controllers.PersonController.options
 GET     /api/naturalpersons/:id         controllers.PersonController.getPerson(id: String)
 PUT     /api/naturalpersons/:id         controllers.PersonController.updatePerson(id: String)
 
+POST    /api/cases/:caseId/addenda/:addendumId          controllers.AddendumController.save(caseId: String, addendumId: String)
+POST    /api/cases/:id/addenda          controllers.AddendumController.create(id: String)
+
+
+
 POST    /api/cases/create                controllers.CaseController.create()
 PUT     /api/cases/bikemototheft         controllers.CaseController.save()
 PUT     /api/cases/electrodevicetheft    controllers.CaseController.save()
@@ -19,6 +24,8 @@ DELETE  /api/cases/:id                   controllers.CaseController.delete(id: S
 
 GET     /api/cases/:id                   controllers.CaseController.get(id: String)
 GET     /api/cases                       controllers.CaseController.list()
+
+
 
 GET     /api/editortexts/search          controllers.EditorTextsController.search(title: String,language: String, corps: String, businessCase: String)
 
