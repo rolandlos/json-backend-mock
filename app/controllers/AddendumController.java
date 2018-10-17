@@ -29,12 +29,12 @@ public class AddendumController extends Controller {
             try {
                 JsonNode node = request().body().asJson();
                 Logger.info("Save Addendumg {} for case {} for user: {}",node,caseId,pid);
-                File caseAddendumDir = new File(pid+"/"+caseId);
+                File caseAddendumDir = new File(pid+"/"+caseId+".addendum");
                 if (!caseAddendumDir.exists()) {
                     Logger.info("Make caseAddendumDir {}",caseAddendumDir);
                     caseAddendumDir.mkdir();
                 }
-                String fileName = pid+"/"+caseId+"/"+addendumId;
+                String fileName = pid+"/"+caseId+".addendum"+"/"+addendumId;
                 try (FileWriter fw = new FileWriter(new File(fileName))) {
                     fw.write(node.toString());
                     fw.flush();
