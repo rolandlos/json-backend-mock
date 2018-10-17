@@ -20,6 +20,8 @@ DELETE  /api/cases/:id                   controllers.CaseController.delete(id: S
 GET     /api/cases/:id                   controllers.CaseController.get(id: String)
 GET     /api/cases                       controllers.CaseController.list()
 
+GET     /api/editortexts/search          controllers.EditorTextsController.search(title: String,language: String, corps: String, businessCase: String)
+
 
 GET     /api/users/self                 controllers.PersonController.self
 
