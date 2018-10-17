@@ -2,6 +2,8 @@ package controllers;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.joda.time.DateTime;
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -93,6 +95,7 @@ public class CaseController extends Controller {
             String pid = PersonController.produceIdFormAuth(jwt);
             try {
                 JsonNode node = request().body().asJson();
+                ((ObjectNode)node).put("createdAt", DateTime.now().toString());
                 Logger.info("Save case {} for user: {}",node,pid);
                 File userCaseDir = new File(pid);
                 if (!userCaseDir.exists()) {

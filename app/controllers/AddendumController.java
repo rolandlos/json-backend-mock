@@ -2,6 +2,8 @@ package controllers;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.joda.time.DateTime;
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -32,6 +34,7 @@ public class AddendumController extends Controller {
             String pid = PersonController.produceIdFormAuth(jwt);
             try {
                 JsonNode node = request().body().asJson();
+                ((ObjectNode)node).put("createdAt", DateTime.now().toString());
                 Logger.info("Save Addendumg {} for case {} for user: {}",node,caseId,pid);
                 File caseAddendumDir = new File(pid+"/"+caseId+".addendum");
                 if (!caseAddendumDir.exists()) {
